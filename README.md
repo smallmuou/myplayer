@@ -1,8 +1,6 @@
 # myplayer
 
-myplayer is my family customized music player. it provide play/pause normal music control, but also provide autoplay/autopause which means only play under some conditions, like between 8:00 and 12:00.
-
-with raspberrypi + dac + volumio + motion + myplayer + cron, i build a self-play music player. it has follow feature:
+myplayer is my family customized music player. with raspberrypi + dac + volumio + motion + myplayer + cron, i build a self-play music player. it has follow feature:
 
 1. when some one at home, it will auto play. 
 2. when some one leave home, it will auto pause.
