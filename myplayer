@@ -110,6 +110,13 @@ shift $(($OPTIND - 1))
 ###            MAIN ENTRY             ###
 #########################################
 
+LOG_FILE=/var/log/myplayer.log
+
+# log string
+log() {
+    echo `date +%Y%m%d-%H:%M:%S` $1 >> $LOG_FILE
+}
+
 # action uri
 action() {
     uri=$1
@@ -171,6 +178,7 @@ play() {
         action "/api/v1/commands/?cmd=play"
     else
         local name=$1
+        log "play $name"
         action "/api/v1/commands/?cmd=playplaylist&name=$name"
         action "/api/v1/commands/?cmd=next"
     fi
@@ -187,6 +195,7 @@ autoplay() {
 
 # pause
 pause() {
+    log "pause"
     action "/api/v1/commands/?cmd=pause"
 }
 
