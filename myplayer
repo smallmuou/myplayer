@@ -148,7 +148,20 @@ random_playlist() {
     echo $playlist
 }
 
+EVENT_FILE=/tmp/motion.event
+
 playable() {
+    # check motion
+    if [ ! -f $EVENT_FILE ];then
+        echo 0
+        return
+    fi
+
+    if [ "`cat $EVENT_FILE`" != "1" ];then
+        echo 0
+        return
+    fi
+
     local cur=$(rsecond `date +%H:%M:%S`)
 
     if test $cur -gt $(rsecond "08:00:00") && test $cur -lt $(rsecond "9:00:00") ;then
