@@ -207,7 +207,7 @@ autoplay() {
 }
 
 motionplay() {
-#    echo 1 > $EVENT_FILE
+    echo 1 > $EVENT_FILE
     autoplay
 }
 
@@ -226,7 +226,7 @@ autopause() {
 }
 
 motionpause() {
-#    echo 0 > $EVENT_FILE
+    echo 0 > $EVENT_FILE
     autopause
 }
 
