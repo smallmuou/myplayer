@@ -75,7 +75,7 @@ for (root, dirs, files) in os.walk(basepath):
     for dir in dirs:
         if dir == 'tmp':
             for (root, dirs, files) in os.walk(fullpath(dir)):
-                if len(files) > 5:
+                if len(files) > 10:
                     try:
                         current=datetime.datetime.now().strftime('%Y%m%d')
                         os.rename(fullpath(dir), fullpath(current))
