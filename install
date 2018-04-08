@@ -108,6 +108,10 @@ shift $(($OPTIND - 1))
 spushd `curdir`
 cp myplayer /usr/local/bin
 chmod +x /usr/local/bin/myplayer
+
+cp autoplaylist /usr/local/bin
+chmod +x /usr/local/bin/autoplaylist
+
 crontab -l > /tmp/cron.conf
 cat cron.conf >> /tmp/cron.conf
 crontab /tmp/cron.conf

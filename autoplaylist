@@ -1,0 +1,89 @@
+#!/usr/bin/python
+# coding=cp936
+#
+# Copyright (C) 2018 smallmuou <smallmuou@163.com>
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is furnished
+# to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+
+import json
+import os
+import sys
+import datetime
+
+basepath='/mnt/USB/hub/Music/'
+dstpath='/data/playlist/'
+
+def fullpath(rpath):
+    return basepath+rpath
+
+if not os.path.exists(basepath):
+    sys.exit(-1)
+
+if not os.path.exists(dstpath):
+    os.mkdir(dstpath)
+
+def dir_clear(path):
+    files = os.listdir(path)
+    for file in files:
+        fpath = os.path.join(path, file)
+        if os.path.isdir(fpath):
+            del_file(fpath)
+        else:
+            os.remove(fpath)
+
+def playlist_generate(path):
+    for (root, dirs, files) in os.walk(fullpath(path)):
+        playlist=[]
+        for file in files:
+            song={}
+            song['service']='mpd'
+            uri=root+'/'+file
+            song['uri']=uri[1:]
+            song['title']=file
+            song['artist']=''
+            song['album']=''
+            song['albumart']=''
+            playlist.append(song)
+
+        if len(playlist) > 0:
+            outfile=open(dstpath+path, 'w')
+            outfile.write(json.dumps(playlist))
+            print 'generate playlist: ' + path + ' count: ' + str(len(playlist))
+
+# clear
+dir_clear(dstpath)
+
+# generate
+for (root, dirs, files) in os.walk(basepath):
+    for dir in dirs:
+        if dir == 'tmp':
+            for (root, dirs, files) in os.walk(fullpath(dir)):
+                if len(files) > 5:
+                    try:
+                        current=datetime.datetime.now().strftime('%Y%m%d')
+                        os.rename(fullpath(dir), fullpath(current))
+                        playlist_generate(current)
+                        os.mkdir(fullpath(dir))
+                    except:
+                        print 'rename tmp failed'
+        else:
+            playlist_generate(dir)
+
+
