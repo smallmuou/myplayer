@@ -1,3 +1,0 @@
-ssh: connect to host www.v-ju.com.cn port 20022: Connection refused
-rsync: connection unexpectedly closed (0 bytes received so far) [sender]
-rsync error: unexplained error (code 255) at /BuildRoot/Library/Caches/com.apple.xbs/Sources/rsync/rsync-51/rsync/io.c(453) [sender=2.6.9]
